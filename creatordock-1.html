@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreatorDock — Where Dockmates Meet Brands</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0a0a0f;--paper:#f5f3ee;--cream:#ede9e0;--accent:#e85a2a;--accent2:#2a6ae8;--gold:#c9a84c;--muted:#6b6760;--card:#fff;--border:#d9d5cd;--success:#2a8a4a;--danger:#d63031;--radius:12px;--shadow:0 4px 24px rgba(10,10,15,.08);--bronze:#cd7f32;--silver:#a8a9ad;--platinum:#7a9bb5;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+.page{display:none;min-height:100vh;}.page.active{display:block;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(245,243,238,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:7px;}
+.logo span{color:var(--accent);}
+.logo-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;}
+.nav-links{display:flex;gap:6px;}
+.nbtn{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;padding:7px 13px;border-radius:8px;transition:all .2s;}
+.nbtn:hover{background:var(--cream);color:var(--ink);}
+.nbtn.cta{background:var(--ink);color:var(--paper);}
+.nbtn.cta:hover{background:var(--accent);color:#fff;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 22px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all .2s;}
+.bp{background:var(--accent);color:#fff;}.bp:hover{background:#d14a1a;transform:translateY(-1px);}
+.bs{background:var(--ink);color:var(--paper);}.bs:hover{background:#1a1a2a;}
+.bo{background:none;border:1.5px solid var(--border);color:var(--ink);}.bo:hover{border-color:var(--accent);color:var(--accent);}
+.bb{background:var(--accent2);color:#fff;}.bb:hover{background:#1a5ad8;}
+.bsm{padding:7px 14px;font-size:12px;}
+.bfull{width:100%;}
+.hero{padding:140px 32px 80px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.hbadge{display:inline-flex;align-items:center;gap:7px;background:var(--cream);border:1px solid var(--border);padding:5px 12px;border-radius:100px;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:20px;text-transform:uppercase;letter-spacing:.5px;}
+.ldot{width:5px;height:5px;background:var(--success);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.hero h1{font-size:clamp(36px,5vw,58px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero>div>p{font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:28px;font-weight:300;}
+.hctas{display:flex;gap:10px;flex-wrap:wrap;}
+.hvis{background:var(--ink);border-radius:18px;padding:24px;position:relative;overflow:hidden;}
+.hvis::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,rgba(232,90,42,.15),transparent 60%);}
+.mc{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px;margin-bottom:8px;}
+.mc:last-child{margin-bottom:0;}
+.mr{display:flex;align-items:center;gap:9px;}
+.mav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;flex-shrink:0;}
+.mav.o{background:rgba(232,90,42,.3);color:#e8a07a;}
+.mav.b{background:rgba(42,106,232,.3);color:#7aaae8;}
+.mav.g{background:rgba(201,168,76,.3);color:#c9a84c;}
+.mn{color:#fff;font-size:12px;font-weight:600;font-family:'Syne',sans-serif;}
+.mst{color:#c9a84c;font-size:11px;}
+.mm{color:rgba(255,255,255,.4);font-size:10px;margin-top:1px;}
+.mt{font-size:10px;padding:2px 7px;border-radius:100px;font-weight:600;white-space:nowrap;}
+.mt.o{background:rgba(232,90,42,.2);color:#e8a07a;}
+.mt.b{background:rgba(42,106,232,.2);color:#7aaae8;}
+.mt.p{background:rgba(122,155,181,.2);color:#7a9bb5;}
+.mv{background:rgba(42,138,74,.15);border:1px solid rgba(42,138,74,.25);border-radius:5px;padding:6px 10px;color:#7ac990;font-size:10px;margin-top:7px;}
+.ml{color:rgba(255,255,255,.3);font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.sbar{background:var(--ink);padding:22px 32px;display:flex;justify-content:center;gap:56px;flex-wrap:wrap;}
+.ssn{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;text-align:center;}
+.ssn span{color:var(--accent);}
+.ssl{color:rgba(255,255,255,.4);font-size:12px;margin-top:2px;text-align:center;}
+.sec{padding:64px 32px;max-width:1100px;margin:0 auto;}
+.slabel{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.sec h2{font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;}
+.sec .sub{font-size:15px;color:var(--muted);max-width:440px;line-height:1.7;margin-bottom:40px;}
+.hg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.hc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .3s;}
+.hc:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--accent);}
+.hn{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--cream);line-height:1;margin-bottom:14px;}
+.hc h3{font-size:16px;font-weight:700;margin-bottom:7px;}
+.hc p{font-size:12px;color:var(--muted);line-height:1.7;}
+.tg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.tc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;}
+.ti{font-size:30px;margin-bottom:12px;}
+.tc h4{font-size:14px;font-weight:700;margin-bottom:6px;}
+.tc p{font-size:12px;color:var(--muted);line-height:1.6;}
+.ts{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.tscard{border-radius:18px;padding:32px;}
+.tscard.dk{background:var(--ink);color:#fff;}
+.tscard.lt{background:var(--cream);border:1px solid var(--border);}
+.tscard h3{font-size:22px;font-weight:800;margin-bottom:9px;}
+.tscard p{font-size:13px;line-height:1.7;opacity:.7;margin-bottom:20px;}
+.fl{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
+.fl li{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;}
+.fl li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;}
+.tscard.dk .fl li{color:rgba(255,255,255,.8);}
+.footer{background:var(--ink);padding:28px;text-align:center;}
+.flogo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:5px;}
+.flogo span{color:var(--accent);}
+/* APP */
+.app-shell{padding-top:62px;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;background:var(--card);border-right:1px solid var(--border);padding:16px 12px;position:fixed;top:62px;left:0;height:calc(100vh - 62px);overflow-y:auto;z-index:50;display:flex;flex-direction:column;}
+.sidebar.dark{background:var(--ink);}
+.sbs{margin-bottom:24px;}
+.sbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 9px;margin-bottom:6px;}
+.sidebar.dark .sbl{color:rgba(255,255,255,.3);}
+.sbi{display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:7px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s;}
+.sbi:hover{background:var(--cream);color:var(--ink);}
+.sbi.active{background:var(--ink);color:#fff;}
+.sidebar.dark .sbi{color:rgba(255,255,255,.5);}
+.sidebar.dark .sbi:hover{background:rgba(255,255,255,.07);color:#fff;}
+.sidebar.dark .sbi.active{background:var(--accent2);color:#fff;}
+.sbi .ico{font-size:14px;flex-shrink:0;}
+.sbadge{margin-left:auto;background:var(--accent);color:#fff;font-size:10px;padding:1px 6px;border-radius:100px;}
+.sidebar.dark .sbadge{background:var(--accent2);}
+.sbuser{padding:10px 9px;border-top:1px solid var(--border);margin-top:auto;}
+.sidebar.dark .sbuser{border-top-color:rgba(255,255,255,.1);}
+.sbun{font-size:13px;font-weight:700;}
+.sidebar.dark .sbun{color:#fff;}
+.sbur{font-size:11px;color:var(--muted);}
+.sidebar.dark .sbur{color:rgba(255,255,255,.4);}
+.main{flex:1;margin-left:220px;padding:24px;overflow-y:auto;}
+.panel{display:none;}.panel.active{display:block;}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.ph h2{font-size:20px;font-weight:800;letter-spacing:-1px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
+.kn{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;}
+.kl{color:var(--muted);font-size:12px;margin-top:2px;}
+.ks{font-size:11px;font-weight:500;margin-top:6px;}
+.ks.up{color:var(--success);}
+.ks.warn{color:var(--gold);}
+.ks.muted{color:var(--muted);}
+.stitle{font-size:15px;font-weight:700;margin-bottom:12px;}
+.tb{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-size:11px;font-weight:700;}
+.tg2{background:rgba(201,168,76,.15);color:var(--gold);}
+.ts2{background:rgba(168,169,173,.15);color:var(--silver);}
+.tp{background:rgba(122,155,181,.15);color:var(--platinum);}
+.tbr{background:rgba(205,127,50,.15);color:var(--bronze);}
+.vb{display:inline-flex;align-items:center;gap:4px;background:rgba(42,138,74,.1);color:var(--success);font-size:11px;font-weight:600;padding:3px 8px;border-radius:100px;}
+.sb2{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-size:11px;font-weight:600;}
+.sp{background:rgba(201,168,76,.12);color:var(--gold);}
+.sa{background:rgba(42,138,74,.12);color:var(--success);}
+.sd{background:rgba(214,48,49,.12);color:var(--danger);}
+.so{background:rgba(42,106,232,.12);color:var(--accent2);}
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
+.dc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;cursor:pointer;transition:all .2s;}
+.dc:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent);}
+.dch{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;}
+.dcb{display:flex;align-items:center;gap:8px;}
+.bl{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:#fff;flex-shrink:0;}
+.bdn{font-size:13px;font-weight:600;}
+.bdt{font-size:11px;color:var(--muted);}
+.bdr{font-size:11px;color:var(--gold);}
+.badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:100px;}
+.bnew{background:rgba(42,138,74,.12);color:var(--success);}
+.bhot{background:rgba(232,90,42,.12);color:var(--accent);}
+.bcl{background:rgba(201,168,76,.15);color:var(--gold);}
+.dct{font-size:14px;font-weight:700;margin-bottom:5px;}
+.dcd{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:11px;}
+.dtags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px;}
+.tag{font-size:10px;padding:3px 7px;border-radius:5px;background:var(--cream);color:var(--muted);font-weight:500;}
+.dcf{display:flex;justify-content:space-between;align-items:center;padding-top:11px;border-top:1px solid var(--border);}
+.dbudg{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--success);}
+.dbudg span{font-size:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;display:block;}
+.dmg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.dmc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;cursor:pointer;transition:all .2s;}
+.dmc:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent2);}
+.dmt{display:flex;align-items:flex-start;gap:10px;margin-bottom:11px;}
+.dmav{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff;flex-shrink:0;}
+.dmn{font-size:14px;font-weight:700;}
+.dmh{font-size:11px;color:var(--muted);margin-top:2px;}
+.dmbd{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;}
+.sr{display:flex;align-items:center;gap:5px;margin-bottom:9px;}
+.stars{color:var(--gold);font-size:12px;}
+.snum{font-size:12px;font-weight:700;}
+.srev{font-size:11px;color:var(--muted);}
+.dmp{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:9px;}
+.pt{font-size:10px;padding:2px 7px;border-radius:5px;background:var(--cream);color:var(--muted);font-weight:500;border:1px solid var(--border);}
+.dms{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:9px;}
+.ds{background:var(--cream);border-radius:6px;padding:7px;text-align:center;}
+.dsn{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;}
+.dsl{font-size:9px;color:var(--muted);margin-top:1px;}
+.cw{margin-bottom:9px;}
+.cl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px;}
+.cb{height:4px;background:var(--cream);border-radius:100px;overflow:hidden;}
+.cf{height:100%;background:var(--success);border-radius:100px;}
+.rt{background:rgba(42,106,232,.08);color:var(--accent2);font-size:11px;font-weight:600;padding:5px 11px;border-radius:6px;}
+.resp{font-size:10px;color:var(--muted);}
+.pl{display:flex;flex-direction:column;gap:10px;}
+.pi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:12px;}
+.pi:hover{border-color:var(--accent);}
+.pil{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;}
+.pii{flex:1;}
+.pit{font-size:13px;font-weight:700;margin-bottom:2px;}
+.pib{font-size:11px;color:var(--muted);}
+.pid{font-size:10px;color:var(--muted);margin-top:2px;}
+.pibudg{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--success);text-align:right;}
+.pibudg span{font-size:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400;display:block;}
+.msc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:10px;}
+.msh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.mst2{font-size:14px;font-weight:700;}
+.msm{font-size:11px;color:var(--muted);margin-top:2px;}
+.mspw{margin-bottom:8px;}
+.mspl{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;}
+.msb{height:7px;background:var(--cream);border-radius:100px;overflow:hidden;}
+.msf{height:100%;border-radius:100px;}
+.msf.g{background:var(--success);}
+.msf.gd{background:var(--gold);}
+.msf.b{background:var(--accent2);}
+.msf.o{background:var(--accent);}
+.msst{display:flex;gap:14px;}
+.msstat{font-size:11px;color:var(--muted);}
+.msstat strong{color:var(--ink);font-weight:700;}
+.add-goal{border:2px dashed var(--border);border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer;color:var(--muted);font-size:12px;font-weight:500;background:none;width:100%;transition:all .2s;}
+.add-goal:hover{border-color:var(--accent);color:var(--accent);}
+.profhero{background:var(--ink);border-radius:16px;padding:28px;margin-bottom:14px;position:relative;overflow:hidden;}
+.profhero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 50%,rgba(232,90,42,.12),transparent 60%);}
+.pht{display:flex;align-items:flex-start;gap:18px;position:relative;}
+.phav{width:72px;height:72px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:#fff;border:2px solid rgba(255,255,255,.15);}
+.phi h2{color:#fff;font-size:20px;font-weight:800;margin-bottom:3px;}
+.phhd{color:rgba(255,255,255,.5);font-size:12px;}
+.phbd{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;}
+.phrat{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);position:relative;}
+.phrn{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#fff;line-height:1;}
+.phrd{display:flex;flex-direction:column;gap:2px;}
+.phrst{color:var(--gold);font-size:16px;}
+.phrc{color:rgba(255,255,255,.4);font-size:11px;}
+.phbars{margin-left:24px;display:flex;flex-direction:column;gap:5px;}
+.pbr{display:flex;align-items:center;gap:6px;font-size:11px;}
+.pbl{color:rgba(255,255,255,.4);width:100px;}
+.pbt{width:80px;height:3px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;}
+.pbf{height:100%;background:var(--gold);border-radius:10px;}
+.pbv{color:#fff;font-weight:700;}
+.phst{display:flex;gap:24px;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);}
+.phsn{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;}
+.phsl{color:rgba(255,255,255,.4);font-size:10px;margin-top:1px;}
+.profbody{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.psec{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
+.psec h4{font-size:13px;font-weight:700;margin-bottom:12px;}
+.ir{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.ir:last-child{border-bottom:none;}
+.ik{color:var(--muted);}
+.iv{font-weight:600;}
+.platlist{display:flex;flex-wrap:wrap;gap:6px;}
+.platitem{display:flex;align-items:center;gap:5px;background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:4px 9px;font-size:12px;font-weight:500;}
+.pv{color:var(--success);font-size:10px;font-weight:700;}
+.ascr{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
+.sct{aspect-ratio:9/16;background:var(--cream);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--muted);text-align:center;padding:5px;}
+.rcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:9px;}
+.rh{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.rav{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;color:#fff;flex-shrink:0;}
+.rbn{font-size:13px;font-weight:600;}
+.rd{font-size:10px;color:var(--muted);}
+.rstars{color:var(--gold);font-size:11px;margin-bottom:5px;}
+.rt2{font-size:12px;color:var(--muted);line-height:1.6;}
+.subr{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
+.sr2{background:var(--cream);border-radius:6px;padding:8px;text-align:center;}
+.srl{font-size:9px;color:var(--muted);margin-bottom:3px;}
+.srv{font-size:14px;font-weight:800;font-family:'Syne',sans-serif;color:var(--gold);}
+.fg{display:grid;grid-template-columns:1px 1px;gap:12px;}
+.fgrp{margin-bottom:16px;}
+.fgrp label{display:block;font-size:11px;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;}
+.lh{font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:4px;}
+input,textarea,select{width:100%;padding:10px 13px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s;appearance:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);}
+textarea{resize:vertical;min-height:80px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fdiv{height:1px;background:var(--border);margin:18px 0;}
+.pp{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px;}
+.ppick{border:2px solid var(--border);border-radius:8px;padding:9px 5px;text-align:center;cursor:pointer;transition:all .15s;background:none;}
+.ppick:hover{border-color:var(--accent);}
+.ppick.sel{border-color:var(--accent);background:rgba(232,90,42,.06);}
+.ppico{font-size:19px;margin-bottom:2px;}
+.ppnm{font-size:10px;font-weight:600;color:var(--muted);}
+.ppick.sel .ppnm{color:var(--accent);}
+.upa{border:2px dashed var(--border);border-radius:var(--radius);padding:24px;text-align:center;cursor:pointer;background:var(--cream);transition:all .2s;}
+.upa:hover{border-color:var(--accent2);}
+.upa h4{font-size:13px;font-weight:700;margin-bottom:4px;}
+.upa p{font-size:11px;color:var(--muted);}
+.uptip{font-size:11px;color:var(--accent2);margin-top:6px;font-weight:600;}
+.upf{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;}
+.uf{display:flex;align-items:center;gap:4px;background:rgba(42,138,74,.1);border:1px solid rgba(42,138,74,.2);border-radius:6px;padding:4px 9px;font-size:11px;color:var(--success);font-weight:500;}
+.ml2{display:grid;grid-template-columns:240px 1fr;height:calc(100vh - 110px);}
+.msgl{border-right:1px solid var(--border);overflow-y:auto;background:var(--card);}
+.msglh{padding:14px 16px;border-bottom:1px solid var(--border);font-size:14px;font-weight:700;}
+.mi{padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;gap:9px;align-items:flex-start;transition:background .15s;}
+.mi:hover{background:var(--cream);}
+.mi.active{background:rgba(232,90,42,.06);border-left:3px solid var(--accent);}
+.mav2{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:#fff;}
+.min{flex:1;min-width:0;}
+.mname{font-size:13px;font-weight:600;}
+.mprev{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mtime{font-size:10px;color:var(--muted);}
+.udot{width:6px;height:6px;background:var(--accent);border-radius:50%;margin-top:3px;flex-shrink:0;}
+.ca{display:flex;flex-direction:column;}
+.cah{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;background:var(--card);}
+.cms{flex:1;padding:18px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;}
+.cbub{max-width:60%;padding:10px 13px;border-radius:14px;font-size:13px;line-height:1.6;}
+.cthem{background:var(--cream);align-self:flex-start;border-radius:3px 14px 14px 14px;}
+.cme{background:var(--ink);color:#fff;align-self:flex-end;border-radius:14px 14px 3px 14px;}
+.ct{font-size:10px;color:var(--muted);margin-top:2px;text-align:right;}
+.cir{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:9px;align-items:center;background:var(--card);}
+.cir input{flex:1;border-radius:100px;padding:8px 16px;}
+.sbar2{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;}
+.sbg{display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px;}
+.sbg label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.sbg input,.sbg select{padding:8px 11px;border-radius:8px;border:1.5px solid var(--border);background:var(--paper);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--ink);outline:none;}
+.sbg input:focus,.sbg select:focus{border-color:var(--accent);}
+.fps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.fp{padding:5px 12px;border-radius:100px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all .15s;}
+.fp:hover,.fp.active{border-color:var(--accent);color:var(--accent);background:rgba(232,90,42,.06);}
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(10,10,15,.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--paper);border-radius:16px;padding:32px;width:90%;max-width:460px;transform:translateY(20px);transition:transform .3s;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal h3{font-size:20px;font-weight:800;margin-bottom:4px;}
+.msub{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.mc2{position:absolute;top:12px;right:12px;background:var(--cream);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.tt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tbtn{padding:12px;border-radius:var(--radius);border:2px solid var(--border);background:var(--card);cursor:pointer;text-align:center;transition:all .2s;}
+.tbtn:hover{border-color:var(--accent);}
+.tbtn.sel{border-color:var(--accent);background:rgba(232,90,42,.06);}
+.tbi{font-size:24px;margin-bottom:6px;}
+.tbl{font-size:13px;font-weight:700;font-family:'Syne',sans-serif;}
+.tbd{font-size:11px;color:var(--muted);margin-top:2px;}
+.vt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0;}
+.vtier{border:1.5px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center;cursor:pointer;transition:all .2s;}
+.vtier:hover,.vtier.sel{border-color:var(--accent);}
+.vtn{font-size:12px;font-weight:700;margin-bottom:2px;}
+.vtp{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent);}
+.vtper{font-size:10px;color:var(--muted);}
+.vtf{font-size:10px;color:var(--muted);margin-top:5px;line-height:1.5;}
+.toast{position:fixed;bottom:20px;right:20px;z-index:300;background:var(--ink);color:#fff;padding:11px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;transform:translateY(60px);opacity:0;transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:8px;}
+.toast.show{transform:translateY(0);opacity:1;}
+@media(max-width:768px){
+  nav{padding:10px 14px;}.nh{display:none!important;}
+  .hero{grid-template-columns:1fr;padding:110px 16px 56px;gap:28px;}
+  .hvis{display:none;}
+  .sbar{gap:28px;padding:20px 16px;}
+  .hg,.tg{grid-template-columns:1fr;}
+  .ts{grid-template-columns:1fr;}
+  .sec{padding:48px 16px;}
+  .sidebar{width:100%;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:8px;border-right:none;border-bottom:1px solid var(--border);}
+  .sbs{display:flex;gap:3px;margin-bottom:0;}
+  .sbl{display:none;}
+  .sbi{white-space:nowrap;}
+  .sbuser{display:none;}
+  .app-shell{flex-direction:column;}
+  .main{margin-left:0;padding:14px;}
+  .g4,.g3{grid-template-columns:1fr 1fr;}
+  .frow,.profbody{grid-template-columns:1fr;}
+  .ml2{grid-template-columns:1fr;}
+  .pp{grid-template-columns:repeat(3,1fr);}
+  .ascr{grid-template-columns:repeat(2,1fr);}
+  .phbars{display:none;}
+  .vt{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo" onclick="goLand()"><div class="logo-dot"></div>Creator<span>Dock</span></div>
+  <div class="nav-links">
+    <button class="nbtn nh" onclick="goLand()">Home</button>
+    <div id="nav-loggedout" style="display:flex;gap:6px;">
+      <button class="nbtn nh" onclick="openM('login')">Log In</button>
+      <button class="nbtn cta" onclick="openM('signup')">Get Started →</button>
+    </div>
+    <div id="nav-loggedin" style="display:none;gap:6px;align-items:center;">
+      <span id="nav-username" style="font-size:13px;font-weight:600;color:var(--ink);padding:0 8px;"></span>
+      <button class="nbtn" onclick="goToDashboard()">Dashboard</button>
+      <button class="nbtn" onclick="logOut()">Log Out</button>
+    </div>
+  </div>
+</nav>
+
+<!-- LANDING -->
+<div id="page-landing" class="page active">
+  <div class="hero">
+    <div>
+      <div class="hbadge"><div class="ldot"></div>Now live in West Africa</div>
+      <h1>Where <em>Dockmates</em><br>meet brands.</h1>
+      <p>The accountable creator marketplace for Nigeria and West Africa. Verified stats. Real ratings. Real results.</p>
+      <div class="hctas"><button class="btn bp" onclick="openM('signup')">Join as Dockmate →</button><button class="btn bo" onclick="openM('signup')">I'm a Brand</button></div>
+    </div>
+    <div class="hvis">
+      <div class="ml">Top Verified Dockmates</div>
+      <div class="mc"><div class="mr"><div class="mav o">G</div><div style="flex:1;"><div class="mn">Greg — Sportsguys</div><div class="mst">★★★★★ 4.8</div><div class="mm">Football · 100% completion</div></div><div class="mt o">Gold</div></div><div class="mv">✓ Analytics Verified · 2.1M views</div></div>
+      <div class="mc"><div class="mr"><div class="mav b">A</div><div style="flex:1;"><div class="mn">Amaka — Fashion</div><div class="mst">★★★★☆ 4.6</div><div class="mm">Lifestyle · 95% completion</div></div><div class="mt b">Silver</div></div></div>
+      <div class="mc"><div class="mr"><div class="mav g">E</div><div style="flex:1;"><div class="mn">Emeka — Comedy</div><div class="mst">★★★★★ 4.9</div><div class="mm">Comedy · Platinum tier</div></div><div class="mt p">Platinum</div></div></div>
+    </div>
+  </div>
+  <div class="sbar">
+    <div><div class="ssn">2<span>k+</span></div><div class="ssl">Verified Dockmates</div></div>
+    <div><div class="ssn">400<span>+</span></div><div class="ssl">Brands Active</div></div>
+    <div><div class="ssn">₦85<span>M</span></div><div class="ssl">Deals Closed</div></div>
+    <div><div class="ssn">4.7<span>★</span></div><div class="ssl">Avg Dockmate Rating</div></div>
+  </div>
+  <div class="sec">
+    <div class="slabel">How It Works</div>
+    <h2>Built on accountability.<br>Not just connections.</h2>
+    <p class="sub">Every Dockmate is rated, reviewed, and verified. Brands know exactly who they're paying — before they pay.</p>
+    <div class="hg">
+      <div class="hc"><div class="hn">01</div><h3>Get Verified</h3><p>Upload real analytics screenshots from all your platforms. Verified Dockmates get a badge, higher ranking, and more deal access.</p></div>
+      <div class="hc"><div class="hn">02</div><h3>Do the Work</h3><p>Apply to brand deals, message directly, and deliver quality content. Your completion rate and response time are tracked publicly.</p></div>
+      <div class="hc"><div class="hn">03</div><h3>Build Your Rank</h3><p>Every deal earns a brand review — rated on content quality, communication, and delivery. Consistent quality unlocks Gold and Platinum tier.</p></div>
+    </div>
+  </div>
+  <div class="sec" style="padding-top:0;">
+    <div class="slabel">What Makes Us Different</div>
+    <h2>The accountability layer<br>the industry needed.</h2>
+    <p class="sub">Other platforms connect people. We make sure the connection actually delivers.</p>
+    <div class="tg">
+      <div class="tc"><div class="ti">⭐</div><h4>Dockmate Ratings</h4><p>Rated out of 5 by brands after every deal — content quality, communication, and delivery.</p></div>
+      <div class="tc"><div class="ti">📊</div><h4>Verified Analytics</h4><p>Dockmates upload real screenshots from all platforms. No fake reach. No inflated numbers.</p></div>
+      <div class="tc"><div class="ti">🏆</div><h4>Creator Tiers</h4><p>Bronze → Silver → Gold → Platinum. Top performers get featured placement and first access to premium deals.</p></div>
+      <div class="tc"><div class="ti">🔄</div><h4>Brand Ratings Too</h4><p>Dockmates rate brands back. Brands who ghost or delay payment get flagged publicly.</p></div>
+    </div>
+  </div>
+  <div class="sec" style="padding-top:0;">
+    <div class="ts">
+      <div class="tscard dk"><h3>For Dockmates 🎥</h3><p>Build a verified profile, close real deals, earn your tier, and grow your income.</p>
+        <ul class="fl"><li>Verified analytics badge</li><li>Add every platform — TikTok to Reddit</li><li>Track pending and accepted deals</li><li>Set monthly milestone goals</li><li>Rate brands — your protection too</li><li>Rise from Bronze to Platinum</li></ul>
+        <button class="btn bp" onclick="openM('signup')">Join as Dockmate</button>
+      </div>
+      <div class="tscard lt"><h3>For Brands 🏪</h3><p>Find Dockmates you can trust. See real stats, real reviews, completion rates — before you spend.</p>
+        <ul class="fl"><li>Post campaign briefs in minutes</li><li>Search by name, niche, or analytics</li><li>Filter by rating, tier, platform, budget</li><li>See verified audience analytics upfront</li><li>Review Dockmates after every deal</li><li>Your investment protected by ratings</li></ul>
+        <button class="btn bs" onclick="openM('signup')">Post a Deal</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><div class="flogo"><span>Creator</span>Dock</div><p style="color:rgba(255,255,255,.4);font-size:11px;">© 2025 CreatorDock. Built for West Africa.</p></div>
+</div>
+
+<!-- DOCKMATE APP -->
+<div id="page-dockmate" class="page">
+  <div class="app-shell">
+    <div class="sidebar" id="dm-sb">
+      <div class="sbs">
+        <div class="sbl">Main</div>
+        <button class="sbi active" onclick="sp('dm','dashboard',this)"><span class="ico">⚡</span>Dashboard</button>
+        <button class="sbi" onclick="sp('dm','deals',this)"><span class="ico">📋</span>Browse Deals</button>
+        <button class="sbi" onclick="sp('dm','pending',this)"><span class="ico">⏳</span>Pending<span class="sbadge">3</span></button>
+        <button class="sbi" onclick="sp('dm','accepted',this)"><span class="ico">✅</span>Accepted Deals</button>
+        <button class="sbi" onclick="sp('dm','goals',this)"><span class="ico">🎯</span>My Goals</button>
+      </div>
+      <div class="sbs">
+        <div class="sbl">Account</div>
+        <button class="sbi" onclick="sp('dm','messages',this)"><span class="ico">💬</span>Messages<span class="sbadge">3</span></button>
+        <button class="sbi" onclick="sp('dm','profile',this)"><span class="ico">👤</span>My Profile</button>
+        <button class="sbi" onclick="sp('dm','editprofile',this)"><span class="ico">✏️</span>Edit Profile</button>
+        <button class="sbi" onclick="openM('verify')"><span class="ico">🔰</span>Get Verified</button>
+      </div>
+      <div class="sbuser"><div class="sbun" id="dm-sbname">My Account</div><div class="sbur">Dockmate</div><div style="margin-top:5px;" id="dm-tier-badge"><span class="tb tbr">◉ Bronze</span></div></div>
+    </div>
+    <div class="main">
+      <!-- DASHBOARD -->
+      <div id="dm-dashboard" class="panel active">
+        <div class="ph"><div><h2 id="dm-welcome">Good afternoon 👋</h2><p style="color:var(--muted);font-size:13px;margin-top:3px;">Complete your profile to start applying for deals</p></div></div>
+        <div class="g4">
+          <div class="kpi"><div class="kn" style="color:var(--gold);">4.8★</div><div class="kl">Your Rating</div><div class="ks up">12 reviews</div></div>
+          <div class="kpi"><div class="kn" style="color:var(--gold);">3</div><div class="kl">Pending Deals</div><div class="ks warn">Awaiting reply</div></div>
+          <div class="kpi"><div class="kn" style="color:var(--success);">2</div><div class="kl">Accepted This Month</div><div class="ks up">↑ Best month</div></div>
+          <div class="kpi"><div class="kn" style="font-size:17px;">🏆 Gold</div><div class="kl">Your Tier</div><div class="ks" style="color:var(--platinum);">3 to Platinum</div></div>
+        </div>
+        <div class="stitle">Open Deals For You</div>
+        <div class="dg" id="dm-mini-deals"></div>
+      </div>
+      <!-- BROWSE DEALS -->
+      <div id="dm-deals" class="panel">
+        <div class="ph"><h2>Browse Deals</h2><button class="btn bp bsm" onclick="sp('dm','pending',null)">My Applications →</button></div>
+        <div class="fps">
+          <button class="fp active" onclick="fd('all',this,'dm-dgrid')">All</button>
+          <button class="fp" onclick="fd('betting',this,'dm-dgrid')">Betting</button>
+          <button class="fp" onclick="fd('fashion',this,'dm-dgrid')">Fashion</button>
+          <button class="fp" onclick="fd('food',this,'dm-dgrid')">Food</button>
+          <button class="fp" onclick="fd('tech',this,'dm-dgrid')">Tech</button>
+          <button class="fp" onclick="fd('beauty',this,'dm-dgrid')">Beauty</button>
+        </div>
+        <div class="dg" id="dm-dgrid"></div>
+      </div>
+      <!-- PENDING DEALS -->
+      <div id="dm-pending" class="panel">
+        <div class="ph"><h2>Pending Deals</h2><p style="font-size:12px;color:var(--muted);">Applications awaiting brand response</p></div>
+        <div class="pl">
+          <div class="pi"><div class="pil" style="background:#2a6ae8;">BK</div><div class="pii"><div class="pit">Champions League Final Campaign</div><div class="pib">BetKing Nigeria · Sports & Betting</div><div style="margin-top:6px;"><span class="sb2 sp">⏳ Awaiting Reply</span></div><div class="pid">Applied 2 days ago</div></div><div class="pibudg">₦400,000<span>Campaign</span></div></div>
+          <div class="pi"><div class="pil" style="background:#7a2ae8;">36</div><div class="pii"><div class="pit">NBA Playoffs Campaign</div><div class="pib">36 Gaming · Sports & Betting</div><div style="margin-top:6px;"><span class="sb2 sp">⏳ Under Review</span></div><div class="pid">Applied 4 days ago</div></div><div class="pibudg">₦200,000<span>Campaign</span></div></div>
+          <div class="pi"><div class="pil" style="background:#2a8a4a;">TM</div><div class="pii"><div class="pit">Tecno Camon 30 Review</div><div class="pib">Tecno Mobile · Tech</div><div style="margin-top:6px;"><span class="sb2 sp">⏳ Shortlisted</span></div><div class="pid">Applied 1 week ago</div></div><div class="pibudg">₦120,000<span>+ Device</span></div></div>
+        </div>
+      </div>
+      <!-- ACCEPTED DEALS -->
+      <div id="dm-accepted" class="panel">
+        <div class="ph"><h2>Accepted Deals</h2></div>
+        <div class="g3">
+          <div class="kpi"><div class="kn" style="color:var(--success);">2</div><div class="kl">Accepted This Month</div><div class="ks up">March 2025</div></div>
+          <div class="kpi"><div class="kn">₦480K</div><div class="kl">Earned This Month</div><div class="ks up">↑ Best month yet</div></div>
+          <div class="kpi"><div class="kn">12</div><div class="kl">Total Closed</div><div class="ks up">100% completion</div></div>
+        </div>
+        <div class="stitle">This Month</div>
+        <div class="pl">
+          <div class="pi"><div class="pil" style="background:#e8612a;">KF</div><div class="pii"><div class="pit">Spring Collection Ambassador</div><div class="pib">KingFashion Lagos · Fashion</div><div style="margin-top:6px;"><span class="sb2 sa">✓ In Progress</span></div><div class="pid">Deadline: March 30, 2025</div></div><div class="pibudg">₦150,000<span>Confirmed</span></div></div>
+          <div class="pi"><div class="pil" style="background:#c9a84c;">CR</div><div class="pii"><div class="pit">New Combo Meal Launch</div><div class="pib">ChickenRepublic · Food & Bev</div><div style="margin-top:6px;"><span class="sb2 sa" style="background:rgba(42,138,74,.2);">✓ Delivered</span></div><div class="pid">Completed March 10, 2025</div></div><div class="pibudg">₦80,000<span>Paid ✓</span></div></div>
+        </div>
+        <div class="stitle" style="margin-top:20px;">Previous</div>
+        <div class="pl"><div class="pi" style="opacity:.7;"><div class="pil" style="background:#2a6ae8;">BK</div><div class="pii"><div class="pit">UCL Quarter Final Campaign</div><div class="pib">BetKing Nigeria · Feb 2025</div><div style="margin-top:6px;"><span class="sb2 sa" style="background:rgba(42,138,74,.2);">✓ Completed</span></div></div><div class="pibudg">₦400,000<span>Paid ✓</span></div></div></div>
+      </div>
+      <!-- GOALS / MILESTONES -->
+      <div id="dm-goals" class="panel">
+        <div class="ph"><h2>My Goals</h2><button class="btn bp bsm" onclick="openM('addgoal')">+ Add Goal</button></div>
+        <p style="color:var(--muted);font-size:13px;margin-bottom:20px;">Set monthly targets and track your growth as a Dockmate. Hit your goals to unlock tier upgrades faster.</p>
+        <div class="msc">
+          <div class="msh"><div><div class="mst2">March 2025 — Deal Target</div><div class="msm">Target: 3 accepted deals</div></div><span class="sb2 sp">In Progress</span></div>
+          <div class="mspw"><div class="mspl"><span>Progress</span><span style="font-weight:700;">2 / 3 deals</span></div><div class="msb"><div class="msf g" style="width:67%"></div></div></div>
+          <div class="msst"><div class="msstat">Started: <strong>March 1</strong></div><div class="msstat">Ends: <strong>March 31</strong></div><div class="msstat">Remaining: <strong>1 deal</strong></div></div>
+        </div>
+        <div class="msc">
+          <div class="msh"><div><div class="mst2">March 2025 — Earnings Target</div><div class="msm">Target: ₦500,000</div></div><span class="sb2 sp">In Progress</span></div>
+          <div class="mspw"><div class="mspl"><span>Progress</span><span style="font-weight:700;">₦480K / ₦500K</span></div><div class="msb"><div class="msf gd" style="width:96%"></div></div></div>
+          <div class="msst"><div class="msstat">Earned: <strong>₦480K</strong></div><div class="msstat">Remaining: <strong>₦20K</strong></div></div>
+        </div>
+        <div class="msc">
+          <div class="msh"><div><div class="mst2">Q1 2025 — TikTok Followers</div><div class="msm">Target: 50,000 followers</div></div><span class="sb2 sa">On Track</span></div>
+          <div class="mspw"><div class="mspl"><span>Progress</span><span style="font-weight:700;">45K / 50K</span></div><div class="msb"><div class="msf b" style="width:90%"></div></div></div>
+          <div class="msst"><div class="msstat">Current: <strong>45K</strong></div><div class="msstat">Remaining: <strong>5,000</strong></div></div>
+        </div>
+        <div class="msc">
+          <div class="msh"><div><div class="mst2">2025 — Reach Platinum Tier</div><div class="msm">15 quality deals needed</div></div><span class="tb tg2">🏆 Gold Now</span></div>
+          <div class="mspw"><div class="mspl"><span>Deals completed</span><span style="font-weight:700;">12 / 15</span></div><div class="msb"><div class="msf o" style="width:80%"></div></div></div>
+          <div class="msst"><div class="msstat">Current: <strong>Gold</strong></div><div class="msstat">Next: <strong>Platinum</strong></div><div class="msstat">Need: <strong>3 more</strong></div></div>
+        </div>
+        <button class="add-goal" onclick="openM('addgoal')">+ Set a New Goal</button>
+      </div>
+      <!-- MESSAGES -->
+      <div id="dm-messages" class="panel">
+        <div class="ml2">
+          <div class="msgl"><div class="msglh">Messages</div>
+            <div class="mi active" onclick="sc(this)"><div class="mav2" style="background:#e8612a;">BK</div><div class="min"><div class="mname">BetKing Nigeria</div><div class="mprev">We love your content...</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div class="mtime">2h</div><div class="udot"></div></div></div>
+            <div class="mi" onclick="sc(this)"><div class="mav2" style="background:#2a6ae8;">KF</div><div class="min"><div class="mname">KingFashion Lagos</div><div class="mprev">Can you do 3 posts?</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div class="mtime">1d</div><div class="udot"></div></div></div>
+            <div class="mi" onclick="sc(this)"><div class="mav2" style="background:#c9a84c;">AS</div><div class="min"><div class="mname">AfriSport</div><div class="mprev">Thanks for applying...</div></div><div><div class="mtime">3d</div></div></div>
+          </div>
+          <div class="ca">
+            <div class="cah"><div class="mav2" style="background:#e8612a;width:32px;height:32px;font-size:11px;">BK</div><div><div style="font-weight:700;font-size:13px;">BetKing Nigeria</div><div style="font-size:11px;color:var(--muted);">Brand rating: ★★★★☆ 4.2 · Active</div></div></div>
+            <div class="cms" id="dm-cms">
+              <div><div class="cbub cthem">Hi! We love your football content. Looking for a creator to promote BetKing ahead of the UCL final. Budget ₦400K for 4 TikToks + 2 reels.</div><div class="ct">2:14 PM</div></div>
+              <div><div class="cbub cme">Interested. Send the full brief and I'll confirm availability.</div><div class="ct">2:31 PM</div></div>
+              <div><div class="cbub cthem">Can you send your media kit?</div><div class="ct">2:45 PM</div></div>
+            </div>
+            <div class="cir"><input type="text" placeholder="Type a message..." id="dm-ci" onkeydown="if(event.key==='Enter')sm('dm')"><button class="btn bp bsm" onclick="sm('dm')">Send</button></div>
+          </div>
+        </div>
+      </div>
+      <!-- PROFILE -->
+      <div id="dm-profile" class="panel">
+        <div class="ph"><h2>My Profile</h2><button class="btn bo bsm" onclick="sp('dm','editprofile',null)">✏️ Edit</button></div>
+        <div class="profhero">
+          <div class="pht">
+            <div class="phav" id="dm-pav" style="background:#2a2a3a;">?</div>
+            <div class="phi"><h2 id="dm-pname">Your Name</h2><div class="phhd" id="dm-phandle">@yourhandle · Edit your profile to get started</div><div class="phbd"><span class="tb tbr">◉ Bronze Tier</span></div></div>
+            <button class="btn bo bsm" style="color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.2);" onclick="sp('dm','editprofile',null)">Edit</button>
+          </div>
+          <div class="phrat">
+            <div class="phrn" id="dm-rating-num">—</div>
+            <div class="phrd"><div class="phrst" id="dm-rating-stars">☆☆☆☆☆</div><div class="phrc">No reviews yet</div></div>
+            <div class="phbars">
+              <div class="pbr"><span class="pbl">Content Quality</span><div class="pbt"><div class="pbf" style="width:96%"></div></div><span class="pbv">4.8</span></div>
+              <div class="pbr"><span class="pbl">Communication</span><div class="pbt"><div class="pbf" style="width:98%"></div></div><span class="pbv">4.9</span></div>
+              <div class="pbr"><span class="pbl">Delivery Speed</span><div class="pbt"><div class="pbf" style="width:86%"></div></div><span class="pbv">4.3</span></div>
+            </div>
+          </div>
+          <div class="phst">
+            <div><div class="phsn">2.1M+</div><div class="phsl">TikTok Views</div></div>
+            <div><div class="phsn">18–34</div><div class="phsl">Audience</div></div>
+            <div><div class="phsn">WA+UK</div><div class="phsl">Regions</div></div>
+            <div><div class="phsn">12</div><div class="phsl">Deals</div></div>
+            <div><div class="phsn">&lt;2h</div><div class="phsl">Response</div></div>
+          </div>
+        </div>
+        <div class="profbody" style="margin-bottom:12px;">
+          <div class="psec"><h4>Details</h4><div class="ir"><span class="ik">Niche</span><span class="iv" id="prof-niche">Not set</span></div><div class="ir"><span class="ik">Style</span><span class="iv">—</span></div><div class="ir"><span class="ik">Location</span><span class="iv" id="prof-location">Not set</span></div><div class="ir"><span class="ik">Email</span><span class="iv" id="prof-email">Not set</span></div></div>
+          <div class="psec"><h4>Rate Card</h4><div class="ir"><span class="ik">TikTok</span><span class="iv">₦80,000</span></div><div class="ir"><span class="ik">IG Reel</span><span class="iv">₦60,000</span></div><div class="ir"><span class="ik">Twitter/X</span><span class="iv">₦30,000</span></div><div class="ir"><span class="ik">Bundle</span><span class="iv">₦150,000</span></div></div>
+        </div>
+        <div class="psec" style="margin-bottom:12px;"><h4>Platforms <span class="vb" style="vertical-align:middle;margin-left:7px;">✓ Verified</span></h4><div class="platlist" style="margin-top:9px;"><div class="platitem">📱 TikTok<span class="pv">✓</span></div><div class="platitem">📸 Instagram<span class="pv">✓</span></div><div class="platitem">𝕏 Twitter/X<span class="pv">✓</span></div><div class="platitem">📘 Facebook</div><div class="platitem">▶ YouTube</div></div>
+        <h4 style="margin-top:16px;margin-bottom:3px;">Analytics Screenshots</h4><p style="font-size:11px;color:var(--muted);">Uploaded · Verified badge earned</p><div class="ascr"><div class="sct">📊 TikTok</div><div class="sct">📈 Instagram</div><div class="sct">📉 Twitter</div></div></div>
+        <div class="psec"><h4>Brand Reviews (12)</h4>
+          <div style="margin-top:12px;">
+            <div class="rcard"><div class="rh"><div class="rav" style="background:#2a6ae8;">BK</div><div><div class="rbn">BetKing Nigeria</div><div class="rd">February 2025</div></div></div><div class="rstars">★★★★★</div><div class="rt2">Greg delivered exactly what we asked for and more. Authentic content, real engagement, clear communication throughout.</div><div class="subr"><div class="sr2"><div class="srl">Content</div><div class="srv">5.0</div></div><div class="sr2"><div class="srl">Communication</div><div class="srv">5.0</div></div><div class="sr2"><div class="srl">Speed</div><div class="srv">4.5</div></div></div></div>
+            <div class="rcard"><div class="rh"><div class="rav" style="background:#e8612a;">KF</div><div><div class="rbn">KingFashion Lagos</div><div class="rd">December 2024</div></div></div><div class="rstars">★★★★☆</div><div class="rt2">Good content, solid engagement. Slight delay on second post but overall reliable. Football angle reached male audiences we couldn't otherwise.</div><div class="subr"><div class="sr2"><div class="srl">Content</div><div class="srv">4.5</div></div><div class="sr2"><div class="srl">Communication</div><div class="srv">4.5</div></div><div class="sr2"><div class="srl">Speed</div><div class="srv">3.5</div></div></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- EDIT PROFILE -->
+      <div id="dm-editprofile" class="panel">
+        <div class="ph"><h2>Edit Profile</h2></div>
+        <div style="max-width:580px;">
+          <div class="psec" style="margin-bottom:12px;"><h4>Basic Info</h4><div class="fdiv" style="margin:10px 0;"></div>
+            <div class="frow"><div class="fgrp"><label>Full Name</label><input type="text" placeholder="Your full name" id="ep-n" autocomplete="name"></div><div class="fgrp"><label>Handle</label><input type="text" placeholder="@yourhandle" id="ep-h" autocomplete="username"></div></div>
+            <div class="frow"><div class="fgrp"><label>Brand Name</label><input type="text" placeholder="Your channel or brand name" id="ep-b"></div><div class="fgrp"><label>Location</label><input type="text" placeholder="e.g. Lagos, Nigeria"></div></div>
+            <div class="fgrp"><label>Bio</label><textarea id="ep-bio" placeholder="Tell brands about yourself, your content style and audience..."></textarea></div>
+            <div class="frow"><div class="fgrp"><label>Niche</label><select><option value="" selected disabled>Select your niche</option><option>Football / Sports</option><option>Fashion</option><option>Food</option><option>Tech</option><option>Beauty</option><option>Comedy</option></select></div><div class="fgrp"><label>Contact Email</label><input type="email" placeholder="your@email.com" id="ep-e" autocomplete="email"></div></div>
+          </div>
+          <div class="psec" style="margin-bottom:12px;"><h4>Rate Card</h4><div class="fdiv" style="margin:10px 0;"></div>
+            <div class="frow"><div class="fgrp"><label>TikTok (₦)</label><input type="number" value="80000"></div><div class="fgrp"><label>Instagram Reel (₦)</label><input type="number" value="60000"></div></div>
+            <div class="frow"><div class="fgrp"><label>Twitter/X (₦)</label><input type="number" value="30000"></div><div class="fgrp"><label>Bundle (₦)</label><input type="number" value="150000"></div></div>
+          </div>
+          <div class="psec" style="margin-bottom:12px;"><h4>Platforms</h4><div class="fdiv" style="margin:10px 0;"></div>
+            <div class="pp">
+              <button class="ppick sel" onclick="tp(this)"><div class="ppico">📱</div><div class="ppnm">TikTok</div></button>
+              <button class="ppick sel" onclick="tp(this)"><div class="ppico">📸</div><div class="ppnm">Instagram</div></button>
+              <button class="ppick sel" onclick="tp(this)"><div class="ppico">𝕏</div><div class="ppnm">Twitter/X</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">▶</div><div class="ppnm">YouTube</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">📘</div><div class="ppnm">Facebook</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">🧵</div><div class="ppnm">Threads</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">📌</div><div class="ppnm">Pinterest</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">👽</div><div class="ppnm">Reddit</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">🎮</div><div class="ppnm">Discord</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">🎬</div><div class="ppnm">Twitch</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">💼</div><div class="ppnm">LinkedIn</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">👻</div><div class="ppnm">Snapchat</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">💬</div><div class="ppnm">WhatsApp</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">🎙</div><div class="ppnm">Podcast</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">📰</div><div class="ppnm">Substack</div></button>
+              <button class="ppick" onclick="tp(this)"><div class="ppico">🎵</div><div class="ppnm">Spotify</div></button>
+            </div>
+            <div class="upa" onclick="fu()"><div style="font-size:28px;margin-bottom:8px;">📤</div><h4>Upload Analytics Screenshots</h4><p>TikTok Studio, Instagram Insights, YouTube Studio etc.</p><div class="uptip">✓ Verified Dockmates get 3x more applications</div></div>
+            <div class="upf" id="upf"><div class="uf">✓ TikTok_Analytics.png</div><div class="uf">✓ Instagram_Insights.png</div></div>
+          </div>
+          <button class="btn bp" style="width:100%;" onclick="saveProf()">Save Changes →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND APP -->
+<div id="page-brand" class="page">
+  <div class="app-shell">
+    <div class="sidebar dark" id="br-sb">
+      <div class="sbs">
+        <div class="sbl">Main</div>
+        <button class="sbi active" onclick="sp('br','dashboard',this)"><span class="ico">⚡</span>Dashboard</button>
+        <button class="sbi" onclick="sp('br','search',this)"><span class="ico">🔍</span>Find Dockmates</button>
+        <button class="sbi" onclick="sp('br','post',this)"><span class="ico">➕</span>Post a Deal</button>
+        <button class="sbi" onclick="sp('br','campaigns',this)"><span class="ico">📊</span>My Campaigns</button>
+      </div>
+      <div class="sbs">
+        <div class="sbl">Account</div>
+        <button class="sbi" onclick="sp('br','messages',this)"><span class="ico">💬</span>Messages<span class="sbadge">2</span></button>
+        <button class="sbi" onclick="sp('br','brandprofile',this)"><span class="ico">🏪</span>Brand Profile</button>
+      </div>
+      <div class="sbuser"><div class="sbun" id="br-sbname">Your Brand</div><div class="sbur">Brand Account</div></div>
+    </div>
+    <div class="main">
+      <!-- BRAND DASHBOARD -->
+      <div id="br-dashboard" class="panel active">
+        <div class="ph"><div><h2 id="br-welcome">Good afternoon 👋</h2><p style="color:var(--muted);font-size:13px;margin-top:3px;">2 new Dockmate applications · 1 active campaign</p></div><button class="btn bb bsm" onclick="sp('br','post',null)">+ Post a Deal</button></div>
+        <div class="g4">
+          <div class="kpi"><div class="kn" style="color:var(--accent2);">3</div><div class="kl">Active Campaigns</div><div class="ks up">2 accepting apps</div></div>
+          <div class="kpi"><div class="kn">12</div><div class="kl">Total Applicants</div><div class="ks warn">2 new this week</div></div>
+          <div class="kpi"><div class="kn" style="color:var(--success);">₦730K</div><div class="kl">Total Spent</div><div class="ks up">5 campaigns</div></div>
+          <div class="kpi"><div class="kn">4.4★</div><div class="kl">Your Brand Rating</div><div class="ks muted">Dockmate reviews</div></div>
+        </div>
+        <div class="stitle">Recent Dockmate Applications</div>
+        <div class="dmg" id="br-mini-dm"></div>
+      </div>
+      <!-- FIND DOCKMATES SEARCH -->
+      <div id="br-search" class="panel">
+        <div class="ph"><h2>Find Dockmates</h2></div>
+        <div class="sbar2">
+          <div class="sbg" style="flex:2;"><label>Name or Handle</label><input type="text" placeholder="e.g. Greg, @sportsg_uy" id="sn" oninput="af()"></div>
+          <div class="sbg"><label>Niche</label><select id="sniche" onchange="af()"><option value="">All Niches</option><option>Football</option><option>Fashion</option><option>Food</option><option>Tech</option><option>Comedy</option><option>Beauty</option></select></div>
+          <div class="sbg"><label>Platform</label><select id="splat" onchange="af()"><option value="">All Platforms</option><option>TikTok</option><option>Instagram</option><option>YouTube</option><option>Twitter/X</option></select></div>
+          <div class="sbg"><label>Min. Rating</label><select id="srat" onchange="af()"><option value="0">Any</option><option value="3">3.0+</option><option value="4">4.0+</option><option value="4.5">4.5+</option></select></div>
+          <div class="sbg"><label>Tier</label><select id="stier" onchange="af()"><option value="">Any</option><option value="platinum">Platinum</option><option value="gold">Gold+</option><option value="silver">Silver+</option></select></div>
+          <div class="sbg"><label>Verified</label><select id="sver" onchange="af()"><option value="">All</option><option value="yes">Verified Only</option></select></div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px;" id="scount">Showing all 6 Dockmates</div>
+        <div class="dmg" id="br-sresults"></div>
+      </div>
+      <!-- POST A DEAL -->
+      <div id="br-post" class="panel">
+        <div class="ph"><h2>Post a Deal</h2></div>
+        <div style="max-width:580px;">
+          <div class="fgrp"><label>Campaign Title</label><input type="text" placeholder="e.g. Brand Ambassador for Spring Collection"></div>
+          <div class="frow"><div class="fgrp"><label>Industry</label><select><option>Fashion</option><option>Sports & Betting</option><option>Food & Bev</option><option>Tech</option><option>Beauty</option><option>Finance</option><option>Other</option></select></div><div class="fgrp"><label>Content Type</label><select><option>TikTok Video</option><option>Instagram Reel</option><option>YouTube Video</option><option>Twitter/X Thread</option><option>Multiple Platforms</option></select></div></div>
+          <div class="fgrp"><label>Campaign Brief</label><textarea placeholder="Describe the campaign, deliverables, and what you need..."></textarea></div>
+          <div class="frow"><div class="fgrp"><label>Budget (₦)</label><input type="number" placeholder="150000"></div><div class="fgrp"><label>Min. Tier</label><select><option>Any tier</option><option>Bronze+</option><option>Silver+</option><option>Gold+</option><option>Platinum only</option></select></div></div>
+          <div class="frow"><div class="fgrp"><label>Min. Rating</label><select><option>Any</option><option>3.0+</option><option>4.0+</option><option>4.5+</option></select></div><div class="fgrp"><label>Verified Only?</label><select><option>No preference</option><option>Verified only</option></select></div></div>
+          <div class="fdiv"></div>
+          <button class="btn bb" style="width:100%;" onclick="submitDeal()">Post Deal →</button>
+        </div>
+      </div>
+      <!-- CAMPAIGNS -->
+      <div id="br-campaigns" class="panel">
+        <div class="ph"><h2>My Campaigns</h2><button class="btn bb bsm" onclick="sp('br','post',null)">+ New</button></div>
+        <div class="pl">
+          <div class="pi"><div class="pil" style="background:#e8612a;">KF</div><div class="pii"><div class="pit">Spring Collection Ambassador</div><div class="pib">Fashion · TikTok + Instagram</div><div style="margin-top:6px;display:flex;gap:6px;"><span class="sb2 sa">✓ Active</span><span class="sb2 so">7 applicants</span></div><div class="pid">Posted March 1 · Deadline March 30</div></div><div class="pibudg">₦150,000<span>Budget</span></div></div>
+          <div class="pi" style="opacity:.7;"><div class="pil" style="background:#2a6ae8;">KF</div><div class="pii"><div class="pit">New Year Product Launch</div><div class="pib">Fashion · Instagram</div><div style="margin-top:6px;"><span class="sb2 sa" style="background:rgba(42,138,74,.2);">✓ Completed</span></div><div class="pid">Jan 2025 · 1 Dockmate hired</div></div><div class="pibudg">₦80,000<span>Spent</span></div></div>
+        </div>
+      </div>
+      <!-- BRAND MESSAGES -->
+      <div id="br-messages" class="panel">
+        <div class="ml2">
+          <div class="msgl"><div class="msglh">Messages</div>
+            <div class="mi active" onclick="sc(this)"><div class="mav2" style="background:linear-gradient(135deg,#e8612a,#c9a84c);">G</div><div class="min"><div class="mname">Greg — Sportsguys</div><div class="mprev">Interested. Send the brief...</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><div class="mtime">2h</div><div class="udot"></div></div></div>
+            <div class="mi" onclick="sc(this)"><div class="mav2" style="background:linear-gradient(135deg,#7a2ae8,#e82a7a);">E</div><div class="min"><div class="mname">Emeka — Comedy</div><div class="mprev">My rate is ₦250K...</div></div><div><div class="mtime">1d</div></div></div>
+          </div>
+          <div class="ca">
+            <div class="cah"><div class="mav2" style="background:linear-gradient(135deg,#e8612a,#c9a84c);width:32px;height:32px;font-size:11px;">G</div><div><div style="font-weight:700;font-size:13px;">Greg — Sportsguys Media</div><div style="font-size:11px;color:var(--muted);">Dockmate: ★★★★★ 4.8 · Gold · Verified</div></div></div>
+            <div class="cms" id="br-cms">
+              <div><div class="cbub cme">Hi! We love your football content. Budget ₦400K for 4 TikToks + 2 reels. Interested?</div><div class="ct">2:14 PM</div></div>
+              <div><div class="cbub cthem">Interested. My audience is football fans 18–34 across Nigeria and West Africa. Send the brief.</div><div class="ct">2:31 PM</div></div>
+              <div><div class="cbub cme">Can you send your media kit?</div><div class="ct">2:45 PM</div></div>
+            </div>
+            <div class="cir"><input type="text" placeholder="Message Greg..." id="br-ci" onkeydown="if(event.key==='Enter')sm('br')"><button class="btn bb bsm" onclick="sm('br')">Send</button></div>
+          </div>
+        </div>
+      </div>
+      <!-- BRAND PROFILE EDIT -->
+      <div id="br-brandprofile" class="panel">
+        <div class="ph"><h2>Brand Profile</h2></div>
+        <div style="max-width:560px;">
+          <div class="psec"><h4>Brand Details</h4><div class="fdiv" style="margin:10px 0;"></div>
+            <div class="frow"><div class="fgrp"><label>Brand Name</label><input type="text" id="br-bname" placeholder="Your brand name"></div><div class="fgrp"><label>Industry</label><select><option>Fashion</option><option>Sports & Betting</option><option>Food & Bev</option><option>Tech</option><option>Beauty</option><option>Finance</option><option>Other</option></select></div></div>
+            <div class="frow"><div class="fgrp"><label>Website</label><input type="url" placeholder="https://yourbrand.com"></div><div class="fgrp"><label>Contact Email</label><input type="email" placeholder="deals@yourbrand.com"></div></div>
+            <div class="fgrp"><label>About Your Brand</label><textarea placeholder="Tell Dockmates what your brand is about..."></textarea></div>
+            <div class="fdiv"></div>
+            <button class="btn bb" style="width:100%;" onclick="saveBrand()">Save Brand Profile →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-signup">
+  <div class="modal"><button class="mc2" onclick="closeM('signup')">×</button>
+    <h3>Join CreatorDock</h3><p class="msub">The accountable West African creator marketplace.</p>
+    <div class="tt"><div class="tbtn sel" id="t-dm" onclick="selType('dockmate')"><div class="tbi">🎥</div><div class="tbl">Dockmate</div><div class="tbd">I create content</div></div><div class="tbtn" id="t-br" onclick="selType('brand')"><div class="tbi">🏪</div><div class="tbl">Brand</div><div class="tbd">I run campaigns</div></div></div>
+    <div class="fgrp"><label>Full Name / Business Name</label><input type="text" placeholder="Your name or brand name" id="su-n" autocomplete="name"></div>
+    <div class="fgrp"><label>Email Address</label><input type="email" placeholder="your@email.com" autocomplete="email"></div>
+    <div class="fgrp"><label>Password</label><input type="password" placeholder="Choose a strong password" autocomplete="new-password"></div>
+    <button class="btn bp bfull" onclick="signUp()" style="margin-top:6px;" id="su-btn">Create Dockmate Account →</button>
+    <p style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted);">Have an account? <a href="#" onclick="switchM('login')" style="color:var(--accent);text-decoration:none;font-weight:700;">Log in</a></p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-login">
+  <div class="modal"><button class="mc2" onclick="closeM('login')">×</button>
+    <h3>Welcome back</h3><p class="msub">Log in to your CreatorDock account.</p>
+    <div class="tt"><div class="tbtn sel" id="lt-dm" onclick="selLType('dockmate')"><div class="tbi">🎥</div><div class="tbl">Dockmate</div></div><div class="tbtn" id="lt-br" onclick="selLType('brand')"><div class="tbi">🏪</div><div class="tbl">Brand</div></div></div>
+    <div class="fgrp"><label>Your Name</label><input type="text" placeholder="Enter your name" id="li-n" autocomplete="name"></div>
+    <div class="fgrp"><label>Email Address</label><input type="email" placeholder="your@email.com" autocomplete="email"></div>
+    <div class="fgrp"><label>Password</label><input type="password" placeholder="Your password" autocomplete="current-password"></div>
+    <button class="btn bs bfull" onclick="logIn()" style="margin-top:6px;">Log In →</button>
+    <p style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted);">No account? <a href="#" onclick="switchM('signup')" style="color:var(--accent);text-decoration:none;font-weight:700;">Sign up free</a></p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-verify">
+  <div class="modal" style="text-align:center;"><button class="mc2" onclick="closeM('verify')">×</button>
+    <div style="font-size:44px;margin-bottom:14px;">🔰</div>
+    <h3>Get Verified</h3><p class="msub">Verified Dockmates get 3x more brand applications, a badge on their profile, and priority in search results.</p>
+    <div class="vt">
+      <div class="vtier sel" onclick="svt(this)"><div class="vtn">Monthly</div><div class="vtp">₦2,500</div><div class="vtper">per month</div><div class="vtf">✓ Verified badge<br>✓ Priority placement<br>✓ Analytics reviewed</div></div>
+      <div class="vtier" onclick="svt(this)"><div class="vtn">Yearly</div><div class="vtp">₦20,000</div><div class="vtper">per year · Save ₦10K</div><div class="vtf">✓ Everything Monthly<br>✓ Featured Dockmate<br>✓ 2 months free</div></div>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:14px;">Payment via Paystack · Cancel anytime</p>
+    <button class="btn bp bfull" onclick="payV()">Pay & Get Verified →</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-addgoal">
+  <div class="modal"><button class="mc2" onclick="closeM('addgoal')">×</button>
+    <h3>Set a New Goal</h3><p class="msub">Track your monthly milestones as a Dockmate.</p>
+    <div class="fgrp"><label>Goal Type</label><select id="gt"><option>Deal Target (# of deals)</option><option>Earnings Target (₦)</option><option>Follower Growth</option><option>Tier Upgrade</option></select></div>
+    <div class="frow"><div class="fgrp"><label>Target</label><input type="text" placeholder="e.g. 3 deals or ₦500,000" id="gtarget"></div><div class="fgrp"><label>Period</label><select><option>April 2025</option><option>May 2025</option><option>Q2 2025</option><option>Full Year 2025</option></select></div></div>
+    <button class="btn bp bfull" onclick="addGoal()">Add Goal →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span>✓</span><span id="tmsg">Done!</span></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const DEALS=[
+  {id:1,brand:'BetKing Nigeria',logo:'BK',color:'#2a6ae8',type:'Sports & Betting',title:'Champions League Final Campaign',desc:'Football creators to promote BetKing ahead of the UCL Final. 4 TikTok posts + 2 reels. Gold tier preferred.',tags:['Football','TikTok','Instagram'],budget:'₦400,000',badge:'hot',bc:'bhot',apps:14,cat:'betting',br:'★★★★☆ 4.2'},
+  {id:2,brand:'KingFashion Lagos',logo:'KF',color:'#e8612a',type:'Fashion',title:'Spring Collection Ambassador',desc:'Stylish creator for new spring line. Verified Dockmates preferred.',tags:['Fashion','Instagram'],budget:'₦150,000',badge:'new',bc:'bnew',apps:7,cat:'fashion',br:'★★★★★ 4.8'},
+  {id:3,brand:'ChickenRepublic',logo:'CR',color:'#c9a84c',type:'Food & Bev',title:'New Combo Meal Launch',desc:'Fun food creator for TikTok skit or taste test.',tags:['Food','TikTok'],budget:'₦80,000',badge:'new',bc:'bnew',apps:22,cat:'food',br:'★★★★☆ 4.0'},
+  {id:4,brand:'Tecno Mobile',logo:'TM',color:'#2a8a4a',type:'Tech',title:'Tecno Camon 30 Review',desc:'Tech or lifestyle creator. Device provided — creator keeps it.',tags:['Tech','YouTube'],budget:'₦120,000',badge:'closing',bc:'bcl',apps:31,cat:'tech',br:'★★★★★ 4.9'},
+  {id:5,brand:'36 Gaming',logo:'36',color:'#7a2ae8',type:'Sports & Betting',title:'NBA Playoffs Campaign',desc:'Sports creators for NBA Playoffs promos. Gold tier minimum.',tags:['Basketball','TikTok'],budget:'₦200,000',badge:'hot',bc:'bhot',apps:18,cat:'betting',br:'★★★☆☆ 3.5'},
+  {id:6,brand:'Zaron Cosmetics',logo:'ZC',color:'#e82a7a',type:'Beauty',title:'Skincare Routine Feature',desc:'Beauty creators for new skincare range.',tags:['Beauty','Instagram'],budget:'₦90,000',badge:'new',bc:'bnew',apps:9,cat:'beauty',br:'★★★★☆ 4.3'},
+];
+const DMS=[
+  {name:'Greg Omoregie',handle:'@SPORTSG_UY',niche:'Football',av:'G',color:'linear-gradient(135deg,#e8612a,#c9a84c)',rating:4.8,reviews:12,comp:100,tier:'gold',ver:true,plats:['TikTok','Instagram','Twitter/X'],followers:'45K',views:'2.1M',rate:'₦80K/post',resp:'<2hrs',cat:'football'},
+  {name:'Emeka Oduya',handle:'@emeka_naija',niche:'Comedy',av:'E',color:'linear-gradient(135deg,#7a2ae8,#e82a7a)',rating:4.9,reviews:28,comp:98,tier:'platinum',ver:true,plats:['TikTok','Instagram','YouTube'],followers:'210K',views:'5M',rate:'₦250K/post',resp:'<1hr',cat:'comedy'},
+  {name:'Amaka Okonkwo',handle:'@amakastyles',niche:'Fashion',av:'A',color:'linear-gradient(135deg,#e82a7a,#c9a84c)',rating:4.6,reviews:19,comp:95,tier:'gold',ver:true,plats:['Instagram','TikTok','Pinterest'],followers:'120K',views:'800K',rate:'₦150K/post',resp:'<4hrs',cat:'fashion'},
+  {name:'Chukwudi Nweke',handle:'@chuks_eats',niche:'Food',av:'C',color:'linear-gradient(135deg,#2a8a4a,#c9a84c)',rating:4.3,reviews:8,comp:88,tier:'silver',ver:true,plats:['TikTok','YouTube','Instagram'],followers:'67K',views:'1.2M',rate:'₦70K/post',resp:'<6hrs',cat:'food'},
+  {name:'Fatima Bello',handle:'@fatimab_tech',niche:'Tech',av:'F',color:'linear-gradient(135deg,#2a6ae8,#7a2ae8)',rating:4.7,reviews:15,comp:100,tier:'gold',ver:true,plats:['YouTube','TikTok','LinkedIn'],followers:'89K',views:'500K',rate:'₦100K/post',resp:'<3hrs',cat:'tech'},
+  {name:'Ngozi Eze',handle:'@ngozibeauty',niche:'Beauty',av:'N',color:'linear-gradient(135deg,#e82a7a,#e8612a)',rating:4.1,reviews:6,comp:83,tier:'bronze',ver:false,plats:['Instagram','TikTok'],followers:'55K',views:'300K',rate:'₦60K/post',resp:'<1day',cat:'beauty'},
+];
+let uType='dockmate',lType='dockmate';
+function tbg(t){const m={platinum:'tp',gold:'tg2',silver:'ts2',bronze:'tbr'};const l={platinum:'🏆 Platinum',gold:'⭐ Gold',silver:'◈ Silver',bronze:'◉ Bronze'};return `<span class="tb ${m[t]}">${l[t]}</span>`;}
+function strs(r){let s='';for(let i=0;i<Math.floor(r);i++)s+='★';if(r%1>=.5)s+='☆';return s;}
+function rdeal(d){return `<div class="dc" onclick="toast('Apply feature coming soon!')"><div class="dch"><div class="dcb"><div class="bl" style="background:${d.color}">${d.logo}</div><div><div class="bdn">${d.brand}</div><div class="bdt">${d.type}</div><div class="bdr">${d.br}</div></div></div><span class="badge ${d.bc}">${d.badge}</span></div><div class="dct">${d.title}</div><div class="dcd">${d.desc}</div><div class="dtags">${d.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="dcf"><div class="dbudg">${d.budget}<span>Budget</span></div><div style="font-size:11px;color:var(--muted);text-align:right;">${d.apps} applied<br><span style="color:var(--success);font-weight:600;">Open</span></div></div></div>`;}
+function rdm(c){return `<div class="dmc" onclick="toast('Viewing '+c.name)"><div class="dmt"><div class="dmav" style="background:${c.color}">${c.av}</div><div><div class="dmn">${c.name}</div><div class="dmh">${c.handle} · ${c.niche}</div><div class="dmbd">${tbg(c.tier)}${c.ver?'<span class="vb">✓</span>':''}</div></div></div><div class="sr"><span class="stars">${strs(c.rating)}</span><span class="snum">${c.rating}</span><span class="srev">(${c.reviews})</span></div><div class="dmp">${c.plats.map(p=>`<span class="pt">${p}</span>`).join('')}</div><div class="dms"><div class="ds"><div class="dsn">${c.followers}</div><div class="dsl">Followers</div></div><div class="ds"><div class="dsn">${c.views}</div><div class="dsl">Views</div></div><div class="ds"><div class="dsn">${c.comp}%</div><div class="dsl">Completed</div></div></div><div class="cw"><div class="cl"><span>Completion</span><span style="color:var(--success);font-weight:600;">${c.comp}%</span></div><div class="cb"><div class="cf" style="width:${c.comp}%"></div></div></div><div style="display:flex;justify-content:space-between;align-items:center;"><span class="rt">${c.rate}</span><span class="resp">⚡${c.resp}</span></div></div>`;}
+document.getElementById('dm-mini-deals').innerHTML=DEALS.slice(0,3).map(rdeal).join('');
+document.getElementById('dm-dgrid').innerHTML=DEALS.map(rdeal).join('');
+document.getElementById('br-mini-dm').innerHTML=DMS.slice(0,3).map(rdm).join('');
+document.getElementById('br-sresults').innerHTML=DMS.map(rdm).join('');
+function goLand(){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-landing').classList.add('active');window.scrollTo(0,0);}
+function showPg(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');window.scrollTo(0,0);}
+function sp(app,panel,btn){
+  showPg(app==='dm'?'dockmate':'brand');
+  const pre=app+'-';
+  document.querySelectorAll(`[id^="${pre}"]`).forEach(p=>{if(p.classList.contains('panel'))p.classList.remove('active');});
+  const el=document.getElementById(pre+panel);
+  if(el)el.classList.add('active');
+  if(btn){const sb=document.getElementById(app+'-sb');if(sb)sb.querySelectorAll('.sbi').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+}
+function fd(cat,btn,gid){
+  btn.closest('.fps').querySelectorAll('.fp').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  const f=cat==='all'?DEALS:DEALS.filter(d=>d.cat===cat);
+  document.getElementById(gid).innerHTML=f.length?f.map(rdeal).join(''):'<p style="color:var(--muted);font-size:13px;grid-column:1/-1;">No deals in this category yet.</p>';
+}
+function af(){
+  const nm=(document.getElementById('sn').value||'').toLowerCase();
+  const ni=(document.getElementById('sniche').value||'').toLowerCase();
+  const pl=(document.getElementById('splat').value||'').toLowerCase();
+  const mr=parseFloat(document.getElementById('srat').value||0);
+  const ti=document.getElementById('stier').value;
+  const ve=document.getElementById('sver').value;
+  const tierOrd=['bronze','silver','gold','platinum'];
+  let res=DMS.filter(c=>{
+    if(nm&&!c.name.toLowerCase().includes(nm)&&!c.handle.toLowerCase().includes(nm))return false;
+    if(ni&&c.niche.toLowerCase()!==ni)return false;
+    if(pl&&!c.plats.some(p=>p.toLowerCase().includes(pl)))return false;
+    if(c.rating<mr)return false;
+    if(ti==='platinum'&&c.tier!=='platinum')return false;
+    if(ti==='gold'&&tierOrd.indexOf(c.tier)<2)return false;
+    if(ti==='silver'&&tierOrd.indexOf(c.tier)<1)return false;
+    if(ve==='yes'&&!c.ver)return false;
+    return true;
+  });
+  document.getElementById('br-sresults').innerHTML=res.length?res.map(rdm).join(''):'<p style="color:var(--muted);font-size:13px;grid-column:1/-1;">No Dockmates match your search.</p>';
+  document.getElementById('scount').textContent=`Showing ${res.length} Dockmate${res.length!==1?'s':''}`;
+}
+function openM(n){document.getElementById('modal-'+n).classList.add('open');}
+function closeM(n){document.getElementById('modal-'+n).classList.remove('open');}
+function switchM(to){document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open'));openM(to);}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function selType(t){uType=t;document.getElementById('t-dm').classList.toggle('sel',t==='dockmate');document.getElementById('t-br').classList.toggle('sel',t==='brand');document.getElementById('su-btn').textContent=t==='dockmate'?'Create Dockmate Account →':'Create Brand Account →';}
+function selLType(t){lType=t;document.getElementById('lt-dm').classList.toggle('sel',t==='dockmate');document.getElementById('lt-br').classList.toggle('sel',t==='brand');}
+function setUser(name,type){
+  const first=name.split(' ')[0]||'there';
+  // Update nav
+  document.getElementById('nav-loggedout').style.display='none';
+  const li=document.getElementById('nav-loggedin');
+  li.style.display='flex';
+  document.getElementById('nav-username').textContent='Hi, '+first+' 👋';
+  // Update avatar with first letter
+  const av=document.getElementById('dm-pav');
+  if(av){av.textContent=first[0].toUpperCase();av.style.background='linear-gradient(135deg,#e85a2a,#c9a84c)';}
+  if(type==='dockmate'){
+    document.getElementById('dm-welcome').textContent='Good afternoon, '+first+' 👋';
+    document.getElementById('dm-sbname').textContent=first;
+    document.getElementById('dm-pname').textContent=name;
+    showPg('dockmate');
+  } else {
+    document.getElementById('br-welcome').textContent='Good afternoon, '+first+' 👋';
+    document.getElementById('br-sbname').textContent=first;
+    showPg('brand');
+  }
+}
+function logOut(){
+  document.getElementById('nav-loggedout').style.display='flex';
+  document.getElementById('nav-loggedin').style.display='none';
+  goLand();
+  toast('Logged out successfully');
+}
+function goToDashboard(){
+  showPg(uType==='brand'?'brand':'dockmate');
+}
+function signUp(){const n=document.getElementById('su-n').value.trim()||'there';closeM('signup');setUser(n,uType);toast('Welcome to CreatorDock, '+n.split(' ')[0]+'! 🎉');}
+function logIn(){const n=document.getElementById('li-n').value.trim()||'there';closeM('login');setUser(n,lType);toast('Welcome back, '+n.split(' ')[0]+' 👋');}
+function svt(el){document.querySelectorAll('.vtier').forEach(v=>v.classList.remove('sel'));el.classList.add('sel');}
+function payV(){closeM('verify');toast('Verification submitted! Badge appearing shortly ✓');}
+function addGoal(){const t=document.getElementById('gtarget').value;closeM('addgoal');toast('Goal added: '+t+' 🎯');}
+function saveProf(){
+  const n=document.getElementById('ep-n').value||'Your Name';
+  const h=document.getElementById('ep-h').value||'@yourhandle';
+  const e=document.getElementById('ep-e').value||'';
+  const first=n.split(' ')[0];
+  document.getElementById('dm-pname').textContent=n;
+  document.getElementById('dm-phandle').textContent=h;
+  document.getElementById('dm-welcome').textContent='Good afternoon, '+first+' 👋';
+  document.getElementById('dm-sbname').textContent=first;
+  document.getElementById('nav-username').textContent='Hi, '+first+' 👋';
+  // Update avatar
+  const av=document.getElementById('dm-pav');
+  av.textContent=first[0].toUpperCase();
+  av.style.background='linear-gradient(135deg,#e85a2a,#c9a84c)';
+  // Update profile detail rows
+  if(document.getElementById('prof-email')) document.getElementById('prof-email').textContent=e||'Not set';
+  sp('dm','profile',null);toast('Profile updated ✓');
+}
+function saveBrand(){const n=document.getElementById('br-bname').value;if(n){document.getElementById('br-sbname').textContent=n;document.getElementById('br-welcome').textContent='Good afternoon, '+n+' 👋';}toast('Brand profile saved ✓');}
+function submitDeal(){toast('Deal posted! Dockmates can now apply 🚀');setTimeout(()=>sp('br','campaigns',null),1000);}
+function tp(el){el.classList.toggle('sel');}
+function fu(){const f=document.getElementById('upf');const names=['YouTube_Studio.png','Facebook_Insights.png','TikTok_Feb25.png','Twitter_Analytics.png'];f.innerHTML+=`<div class="uf">✓ ${names[Math.floor(Math.random()*names.length)]}</div>`;toast('Screenshot uploaded ✓');}
+function sm(app){
+  const ci=document.getElementById(app+'-ci');const v=ci.value.trim();if(!v)return;
+  const m=document.getElementById(app+'-cms');
+  m.innerHTML+=`<div><div class="cbub cme">${v}</div><div class="ct">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+  ci.value='';m.scrollTop=m.scrollHeight;
+}
+function sc(el){el.closest('.msgl').querySelectorAll('.mi').forEach(i=>i.classList.remove('active'));el.classList.add('active');}
+function toast(msg){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+</script>
+</body>
+</html>
